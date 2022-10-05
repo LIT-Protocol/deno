@@ -16,6 +16,7 @@ pub use deno_webgpu;
 pub use deno_webidl;
 pub use deno_websocket;
 pub use deno_webstorage;
+pub use lit_deno_bindings;
 
 pub mod colors;
 pub mod errors;

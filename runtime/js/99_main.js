@@ -87,13 +87,16 @@ delete Intl.v8BreakIterator;
       windowIsClosing = true;
       // Push a macrotask to exit after a promise resolve.
       // This is not perfect, but should be fine for first pass.
-      PromisePrototypeThen(
-        PromiseResolve(),
-        () =>
-          FunctionPrototypeCall(timers.setTimeout, null, () => {
+      PromisePrototypeThen(PromiseResolve(), () =>
+        FunctionPrototypeCall(
+          timers.setTimeout,
+          null,
+          () => {
             // This should be fine, since only Window/MainWorker has .close()
             os.exit(0);
-          }, 0),
+          },
+          0
+        )
       );
     }
   }
@@ -120,7 +123,7 @@ delete Intl.v8BreakIterator;
     ) {
       const transfer = webidl.converters["sequence<object>"](
         transferOrOptions,
-        { prefix, context: "Argument 2" },
+        { prefix, context: "Argument 2" }
       );
       options = { transfer };
     } else {
@@ -129,7 +132,7 @@ delete Intl.v8BreakIterator;
         {
           prefix,
           context: "Argument 2",
-        },
+        }
       );
     }
     const { transfer } = options;
@@ -144,7 +147,7 @@ delete Intl.v8BreakIterator;
     if (!globalDispatchEvent) {
       globalDispatchEvent = FunctionPrototypeBind(
         globalThis.dispatchEvent,
-        globalThis,
+        globalThis
       );
     }
     while (!isClosing) {
@@ -196,7 +199,7 @@ delete Intl.v8BreakIterator;
       } catch {
         throw new domException.DOMException(
           "Failed to parse URL.",
-          "SyntaxError",
+          "SyntaxError"
         );
       }
     });
@@ -207,7 +210,7 @@ delete Intl.v8BreakIterator;
     // loaded with `importScripts()`.
     const scripts = ops.op_worker_sync_fetch(
       parsedUrls,
-      !loadedMainWorkerScript,
+      !loadedMainWorkerScript
     );
     loadedMainWorkerScript = true;
 
@@ -227,15 +230,13 @@ delete Intl.v8BreakIterator;
     if (error instanceof Error) {
       return null;
     } else if (typeof error == "string") {
-      return `Uncaught ${
-        inspectArgs([quoteString(error)], {
-          colors: !colors.getNoColor(),
-        })
-      }`;
+      return `Uncaught ${inspectArgs([quoteString(error)], {
+        colors: !colors.getNoColor(),
+      })}`;
     } else {
-      return `Uncaught ${
-        inspectArgs([error], { colors: !colors.getNoColor() })
-      }`;
+      return `Uncaught ${inspectArgs([error], {
+        colors: !colors.getNoColor(),
+      })}`;
     }
   }
 
@@ -248,7 +249,7 @@ delete Intl.v8BreakIterator;
     version.setVersions(
       runtimeOptions.denoVersion,
       runtimeOptions.v8Version,
-      runtimeOptions.tsVersion,
+      runtimeOptions.tsVersion
     );
     build.setBuildInfo(runtimeOptions.target);
     util.setLogDebug(runtimeOptions.debugFlag, source);
@@ -280,43 +281,43 @@ delete Intl.v8BreakIterator;
       "DOMExceptionOperationError",
       function DOMExceptionOperationError(msg) {
         return new domException.DOMException(msg, "OperationError");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionQuotaExceededError",
       function DOMExceptionQuotaExceededError(msg) {
         return new domException.DOMException(msg, "QuotaExceededError");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionNotSupportedError",
       function DOMExceptionNotSupportedError(msg) {
         return new domException.DOMException(msg, "NotSupported");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionNetworkError",
       function DOMExceptionNetworkError(msg) {
         return new domException.DOMException(msg, "NetworkError");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionAbortError",
       function DOMExceptionAbortError(msg) {
         return new domException.DOMException(msg, "AbortError");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionInvalidCharacterError",
       function DOMExceptionInvalidCharacterError(msg) {
         return new domException.DOMException(msg, "InvalidCharacterError");
-      },
+      }
     );
     core.registerErrorBuilder(
       "DOMExceptionDataError",
       function DOMExceptionDataError(msg) {
         return new domException.DOMException(msg, "DataError");
-      },
+      }
     );
   }
 
@@ -398,13 +399,11 @@ delete Intl.v8BreakIterator;
   const windowOrWorkerGlobalScope = {
     Blob: util.nonEnumerable(file.Blob),
     ByteLengthQueuingStrategy: util.nonEnumerable(
-      streams.ByteLengthQueuingStrategy,
+      streams.ByteLengthQueuingStrategy
     ),
     CloseEvent: util.nonEnumerable(CloseEvent),
     CompressionStream: util.nonEnumerable(compression.CompressionStream),
-    CountQueuingStrategy: util.nonEnumerable(
-      streams.CountQueuingStrategy,
-    ),
+    CountQueuingStrategy: util.nonEnumerable(streams.CountQueuingStrategy),
     CryptoKey: util.nonEnumerable(crypto.CryptoKey),
     CustomEvent: util.nonEnumerable(CustomEvent),
     DecompressionStream: util.nonEnumerable(compression.DecompressionStream),
@@ -425,7 +424,7 @@ delete Intl.v8BreakIterator;
     ProgressEvent: util.nonEnumerable(ProgressEvent),
     ReadableStream: util.nonEnumerable(streams.ReadableStream),
     ReadableStreamDefaultReader: util.nonEnumerable(
-      streams.ReadableStreamDefaultReader,
+      streams.ReadableStreamDefaultReader
     ),
     Request: util.nonEnumerable(fetch.Request),
     Response: util.nonEnumerable(fetch.Response),
@@ -443,32 +442,32 @@ delete Intl.v8BreakIterator;
     Worker: util.nonEnumerable(worker.Worker),
     WritableStream: util.nonEnumerable(streams.WritableStream),
     WritableStreamDefaultWriter: util.nonEnumerable(
-      streams.WritableStreamDefaultWriter,
+      streams.WritableStreamDefaultWriter
     ),
     WritableStreamDefaultController: util.nonEnumerable(
-      streams.WritableStreamDefaultController,
+      streams.WritableStreamDefaultController
     ),
     ReadableByteStreamController: util.nonEnumerable(
-      streams.ReadableByteStreamController,
+      streams.ReadableByteStreamController
     ),
     ReadableStreamBYOBReader: util.nonEnumerable(
-      streams.ReadableStreamBYOBReader,
+      streams.ReadableStreamBYOBReader
     ),
     ReadableStreamBYOBRequest: util.nonEnumerable(
-      streams.ReadableStreamBYOBRequest,
+      streams.ReadableStreamBYOBRequest
     ),
     ReadableStreamDefaultController: util.nonEnumerable(
-      streams.ReadableStreamDefaultController,
+      streams.ReadableStreamDefaultController
     ),
     TransformStreamDefaultController: util.nonEnumerable(
-      streams.TransformStreamDefaultController,
+      streams.TransformStreamDefaultController
     ),
     atob: util.writable(base64.atob),
     btoa: util.writable(base64.btoa),
     clearInterval: util.writable(timers.clearInterval),
     clearTimeout: util.writable(timers.clearTimeout),
     console: util.nonEnumerable(
-      new Console((msg, level) => core.print(msg, level > 1)),
+      new Console((msg, level) => core.print(msg, level > 1))
     ),
     crypto: util.readOnly(crypto.crypto),
     Crypto: util.nonEnumerable(crypto.Crypto),
@@ -588,16 +587,16 @@ delete Intl.v8BreakIterator;
         return false;
     }
 
-    return !!globalThis.onunhandledrejection ||
-      eventTarget.listenerCount(globalThis, "unhandledrejection") > 0;
+    return (
+      !!globalThis.onunhandledrejection ||
+      eventTarget.listenerCount(globalThis, "unhandledrejection") > 0
+    );
   }
 
   function promiseRejectMacrotaskCallback() {
     while (pendingRejections.length > 0) {
       const promise = ArrayPrototypeShift(pendingRejections);
-      const hasPendingException = ops.op_has_pending_promise_exception(
-        promise,
-      );
+      const hasPendingException = ops.op_has_pending_promise_exception(promise);
       const reason = WeakMapPrototypeGet(pendingRejectionsReasons, promise);
       WeakMapPrototypeDelete(pendingRejectionsReasons, promise);
 
@@ -738,11 +737,7 @@ delete Intl.v8BreakIterator;
     util.log("args", args);
   }
 
-  function bootstrapWorkerRuntime(
-    runtimeOptions,
-    name,
-    internalName,
-  ) {
+  function bootstrapWorkerRuntime(runtimeOptions, name, internalName) {
     if (hasBootstrapped) {
       throw new Error("Worker runtime already bootstrapped");
     }
@@ -766,7 +761,7 @@ delete Intl.v8BreakIterator;
       ObjectDefineProperty(
         globalThis,
         "importScripts",
-        util.writable(importScripts),
+        util.writable(importScripts)
       );
     }
     ObjectSetPrototypeOf(globalThis, DedicatedWorkerGlobalScope.prototype);
@@ -788,10 +783,7 @@ delete Intl.v8BreakIterator;
       workerClose();
     });
 
-    runtimeStart(
-      runtimeOptions,
-      internalName ?? name,
-    );
+    runtimeStart(runtimeOptions, internalName ?? name);
     const {
       unstableFlag,
       pid,

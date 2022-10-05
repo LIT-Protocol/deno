@@ -1192,6 +1192,7 @@ dependencies = [
  "http",
  "hyper",
  "libc",
+ "lit_deno_bindings",
  "log 0.4.17",
  "lzzzz",
  "netif",
@@ -2606,6 +2607,17 @@ name = "linux-raw-sys"
 version = "0.0.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4d2456c373231a208ad294c33dc5bff30051eafd954cd4caae83a712b12854d"
+
+[[package]]
+name = "lit_deno_bindings"
+version = "0.1.0"
+dependencies = [
+ "deno_bench_util",
+ "deno_core",
+ "deno_webidl",
+ "serde",
+ "serde_repr",
+]
 
 [[package]]
 name = "lock_api"

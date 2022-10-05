@@ -137,6 +137,7 @@ impl MainWorker {
       // Web APIs
       deno_webidl::init(),
       deno_console::init(),
+      lit_deno_bindings::init(),
       deno_url::init(),
       deno_web::init::<Permissions>(
         options.blob_store.clone(),
