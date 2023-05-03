@@ -534,58 +534,7 @@ deno_core::extension!(deno_napi,
       tsfn_ref_counters: Arc::new(Mutex::new(vec![])),
     });
   },
-  event_loop_middleware = event_loop_middleware,
 );
-
-fn event_loop_middleware(
-  op_state_rc: Rc<RefCell<OpState>>,
-  cx: &mut std::task::Context,
-) -> bool {
-  // `work` can call back into the runtime. It can also schedule an async task
-  // but we don't know that now. We need to make the runtime re-poll to make
-  // sure no pending NAPI tasks exist.
-  let mut maybe_scheduling = false;
-
-  {
-    let mut op_state = op_state_rc.borrow_mut();
-    let napi_state = op_state.borrow_mut::<NapiState>();
-
-    while let Poll::Ready(Some(async_work_fut)) =
-      napi_state.async_work_receiver.poll_next_unpin(cx)
-    {
-      napi_state.pending_async_work.push(async_work_fut);
-    }
-
-    if napi_state.active_threadsafe_functions > 0 {
-      maybe_scheduling = true;
-    }
-
-    let tsfn_ref_counters = napi_state.tsfn_ref_counters.lock().clone();
-    for (_id, counter) in tsfn_ref_counters.iter() {
-      if counter.load(std::sync::atomic::Ordering::SeqCst) > 0 {
-        maybe_scheduling = true;
-        break;
-      }
-    }
-  }
-
-  loop {
-    let maybe_work = {
-      let mut op_state = op_state_rc.borrow_mut();
-      let napi_state = op_state.borrow_mut::<NapiState>();
-      napi_state.pending_async_work.pop()
-    };
-
-    if let Some(work) = maybe_work {
-      work();
-      maybe_scheduling = true;
-    } else {
-      break;
-    }
-  }
-
-  maybe_scheduling
-}
 
 pub trait NapiPermissions {
   fn check(&mut self, path: Option<&Path>)
