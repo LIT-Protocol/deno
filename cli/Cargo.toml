@@ -11,6 +11,12 @@ license.workspace = true
 repository.workspace = true
 description = "Provides the deno executable"
 
+# HACK: Expose CLI lib
+[lib]
+name = "deno_cli"
+path = "main.rs"
+doc = false
+
 [[bin]]
 name = "deno"
 path = "main.rs"

@@ -52,7 +52,7 @@ use deno_runtime::WorkerExecutionMode;
 pub use deno_runtime::UNSTABLE_GRANULAR_FLAGS;
 use deno_telemetry::OtelConfig;
 use deno_terminal::colors;
-use factory::CliFactory;
+pub use factory::CliFactory; // HACK: made public
 
 const MODULE_NOT_FOUND: &str = "Module not found";
 const UNSUPPORTED_SCHEME: &str = "Unsupported scheme";
@@ -61,7 +61,7 @@ use self::npm::ResolveSnapshotError;
 use self::util::draw_thread::DrawThread;
 use crate::args::flags_from_vec;
 use crate::args::DenoSubcommand;
-use crate::args::Flags;
+pub use crate::args::Flags; // HACK: made public
 use crate::util::display;
 use crate::util::v8::get_v8_flags_from_env;
 use crate::util::v8::init_v8_flags;
