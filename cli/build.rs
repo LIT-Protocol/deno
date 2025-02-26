@@ -138,7 +138,14 @@ fn compress_source(out_dir: &Path, file: &str) {
 
   println!("cargo:rerun-if-changed={}", path.display());
 
-  let compressed = zstd::bulk::compress(&contents, 19).unwrap();
+  let compressed = {
+    let mut compressed = Vec::new();
+    let mut encoder = zstd::stream::Encoder::new(&mut compressed, 19).unwrap();
+    std::io::copy(&mut &contents[..], &mut encoder).unwrap();
+    encoder.finish().unwrap();
+    compressed
+  };
+
   let mut out = out_dir.join(file.trim_start_matches("../"));
   let mut ext = out
     .extension()

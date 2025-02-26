@@ -1260,8 +1260,12 @@ pub(crate) static TYPESCRIPT_SOURCE: StaticAssetSource =
 pub(crate) fn decompress_source(contents: &[u8]) -> Arc<str> {
   let len_bytes = contents[0..4].try_into().unwrap();
   let len = u32::from_le_bytes(len_bytes);
-  let uncompressed =
-    zstd::bulk::decompress(&contents[4..], len as usize).unwrap();
+  let uncompressed = zstd::stream::decode_all(&contents[4..]).unwrap();
+  assert_eq!(
+    uncompressed.len(),
+    len as usize,
+    "Decompressed length mismatch"
+  );
   String::from_utf8(uncompressed).unwrap().into()
 }
 
