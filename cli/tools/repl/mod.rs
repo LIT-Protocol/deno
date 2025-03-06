@@ -187,6 +187,10 @@ pub async fn run(
       main_module.clone(),
       permissions.clone(),
       vec![crate::ops::testing::deno_test::init_ops(test_event_sender)],
+      None,
+      None,
+      None,
+      None,
       Default::default(),
     )
     .await?;

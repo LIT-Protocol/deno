@@ -399,6 +399,10 @@ impl<TSys: DenoLibSys> LibMainWorkerFactory<TSys> {
       main_module,
       permissions,
       vec![],
+      None,
+      None,
+      None,
+      None,
       Default::default(),
     )
   }
@@ -409,6 +413,10 @@ impl<TSys: DenoLibSys> LibMainWorkerFactory<TSys> {
     main_module: Url,
     permissions: PermissionsContainer,
     custom_extensions: Vec<Extension>,
+    custom_snapshot: Option<&'static [u8]>,
+    custom_create_params: Option<v8::CreateParams>,
+    custom_cpu_count: Option<usize>,
+    custom_user_agent: Option<String>,
     stdio: deno_runtime::deno_io::Stdio,
   ) -> Result<LibMainWorker, CoreError> {
     let shared = &self.shared;
@@ -466,9 +474,11 @@ impl<TSys: DenoLibSys> LibMainWorkerFactory<TSys> {
       bootstrap: BootstrapOptions {
         deno_version: crate::version::DENO_VERSION_INFO.deno.to_string(),
         args: shared.options.argv.clone(),
-        cpu_count: std::thread::available_parallelism()
-          .map(|p| p.get())
-          .unwrap_or(1),
+        cpu_count: custom_cpu_count.unwrap_or_else(|| {
+          std::thread::available_parallelism()
+            .map(|p| p.get())
+            .unwrap_or(1)
+        }),
         log_level: shared.options.log_level,
         enable_op_summary_metrics: shared.options.enable_op_summary_metrics,
         enable_testing_features: shared.options.enable_testing_features,
@@ -479,7 +489,9 @@ impl<TSys: DenoLibSys> LibMainWorkerFactory<TSys> {
         is_stderr_tty: deno_terminal::is_stderr_tty(),
         color_level: colors::get_color_level(),
         unstable_features,
-        user_agent: crate::version::DENO_VERSION_INFO.user_agent.to_string(),
+        user_agent: custom_user_agent.unwrap_or_else(|| {
+          crate::version::DENO_VERSION_INFO.user_agent.to_string()
+        }),
         inspect: shared.options.is_inspecting,
         has_node_modules_dir: shared.options.has_node_modules_dir,
         argv0: shared.options.argv0.clone(),
@@ -492,8 +504,10 @@ impl<TSys: DenoLibSys> LibMainWorkerFactory<TSys> {
         close_on_idle: true,
       },
       extensions: custom_extensions,
-      startup_snapshot: shared.options.startup_snapshot,
-      create_params: create_isolate_create_params(),
+      startup_snapshot: custom_snapshot
+        .or_else(|| shared.options.startup_snapshot),
+      create_params: custom_create_params
+        .or_else(|| create_isolate_create_params()),
       unsafely_ignore_certificate_errors: shared
         .options
         .unsafely_ignore_certificate_errors

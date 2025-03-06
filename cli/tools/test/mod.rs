@@ -632,6 +632,10 @@ async fn configure_main_worker(
         ops::lint::deno_lint_ext_for_test::init_ops(),
         ops::jupyter::deno_jupyter_for_test::init_ops(sender),
       ],
+      None,
+      None,
+      None,
+      None,
       Stdio {
         stdin: StdioPipe::inherit(),
         stdout: StdioPipe::file(worker_sender.stdout),

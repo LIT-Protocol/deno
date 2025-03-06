@@ -364,6 +364,10 @@ impl CliMainWorkerFactory {
         main_module,
         self.root_permissions.clone(),
         vec![],
+        None,
+        None,
+        None,
+        None,
         Default::default(),
       )
       .await
@@ -375,6 +379,10 @@ impl CliMainWorkerFactory {
     main_module: ModuleSpecifier,
     permissions: PermissionsContainer,
     custom_extensions: Vec<Extension>,
+    custom_snapshot: Option<&'static [u8]>,
+    custom_create_params: Option<v8::CreateParams>,
+    custom_cpu_count: Option<usize>,
+    custom_user_agent: Option<String>,
     stdio: deno_runtime::deno_io::Stdio,
   ) -> Result<CliMainWorker, CreateCustomWorkerError> {
     let main_module = if let Ok(package_ref) =
@@ -431,6 +439,10 @@ impl CliMainWorkerFactory {
       main_module,
       permissions,
       custom_extensions,
+      custom_snapshot,
+      custom_create_params,
+      custom_cpu_count,
+      custom_user_agent,
       stdio,
     )?;
 
