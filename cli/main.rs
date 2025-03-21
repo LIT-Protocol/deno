@@ -23,7 +23,7 @@ mod tools;
 mod tsc;
 mod type_checker;
 mod util;
-mod worker;
+pub mod worker; // HACK: made public
 
 pub mod sys {
   #[allow(clippy::disallowed_types)] // ok, definition
